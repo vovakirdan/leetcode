@@ -9,3 +9,6 @@ check:
 
 update-readme:
 	@go run scripts/generate_readme.go
+
+test:
+	@go test -v ./...
