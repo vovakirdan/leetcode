@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+echo "🔍 Running gofmt..."
+fmt_result=$(gofmt -l .)
+if [ -n "$fmt_result" ]; then
+    echo "❌ gofmt found unformatted files:"
+    echo "$fmt_result"
+    exit 1
+fi
+
+echo "🔎 Running go vet..."
+go vet ./...
+
+echo "📄 Regenerating README.md..."
+go run scripts/generate_readme.go
+
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to generate README.md"
+    exit 1
+fi
+
+echo "✅ Adding updated README.md to commit"
+git add README.md

@@ -1,3 +1,10 @@
-# Решение задач на leetcode
+# LeetCode Solutions in Go
 
-* [199. Binary Tree Right Side View](solutions/199. Binary Tree Right Side View/readme)
+Решения задач с [leetcode.com](https://leetcode.com) с пояснением, кодом и тестами.
+
+## 🔗 Задачи
+
+| # | Название задачи | Уровень | Решение | Описание |
+|---|------------------|---------|---------|----------|
+| 1 | Binary Tree Right Side View | Medium | [Code](problems/199BinaryTreeRightSideView/solution.go) | [Explanation](problems/199BinaryTreeRightSideView/README.md) |
+| 2 | Implement Trie (Prefix Tree) | Medium | [Code](problems/208ImplementTriePrefixTree/solution.go) | [Explanation](problems/208ImplementTriePrefixTree/README.md) |
