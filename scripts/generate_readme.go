@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 
 	"golang.org/x/text/cases"
@@ -13,9 +14,10 @@ import (
 )
 
 type Problem struct {
-	Slug  string
-	Title string
-	Level string
+	Number int
+	Slug   string
+	Title  string
+	Level  string
 }
 
 func extractTitleAndLevel(readmePath string) (string, string) {
@@ -41,6 +43,15 @@ func extractTitleAndLevel(readmePath string) (string, string) {
 	return title, level
 }
 
+func extractNumberFromSlug(slug string) int {
+	re := regexp.MustCompile(`^(\d+)`)
+	if m := re.FindStringSubmatch(slug); m != nil {
+		num, _ := strconv.Atoi(m[1])
+		return num
+	}
+	return 0
+}
+
 func main() {
 	problemsDir := "problems"
 	var problems []Problem
@@ -64,12 +75,13 @@ func main() {
 				continue
 			}
 
-			problems = append(problems, Problem{Slug: slug, Title: title, Level: level})
+			number := extractNumberFromSlug(slug)
+			problems = append(problems, Problem{Number: number, Slug: slug, Title: title, Level: level})
 		}
 	}
 
 	sort.Slice(problems, func(i, j int) bool {
-		return problems[i].Title < problems[j].Title
+		return problems[i].Number < problems[j].Number
 	})
 
 	var builder strings.Builder
@@ -80,8 +92,8 @@ func main() {
 	builder.WriteString("|---|------------------|---------|---------|----------|\n")
 
 	for i, p := range problems {
-		builder.WriteString(fmt.Sprintf("| %d | %s | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
-			i+1, p.Title, p.Level, p.Slug, p.Slug))
+		builder.WriteString(fmt.Sprintf("| %d | %d. %s | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
+			i+1, p.Number, p.Title, p.Level, p.Slug, p.Slug))
 	}
 
 	err = os.WriteFile("README.md", []byte(builder.String()), 0644)
