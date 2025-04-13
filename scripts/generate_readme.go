@@ -92,8 +92,12 @@ func main() {
 	builder.WriteString("|---|------------------|---------|---------|----------|\n")
 
 	for i, p := range problems {
-		builder.WriteString(fmt.Sprintf("| %d | %d. %s | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
-			i+1, p.Number, p.Title, p.Level, p.Slug, p.Slug))
+		// Получим slug из названия задачи
+		slug := strings.ToLower(regexp.MustCompile(`([a-z])([A-Z])`).ReplaceAllString(p.Title, "$1-$2"))
+
+		builder.WriteString(fmt.Sprintf(
+			"| %d | [%d. %s](https://leetcode.com/problems/%s/) | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
+			i+1, p.Number, p.Title, slug, p.Level, p.Slug, p.Slug))
 	}
 
 	err = os.WriteFile("README.md", []byte(builder.String()), 0644)

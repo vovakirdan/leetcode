@@ -1,24 +1,68 @@
 #!/bin/bash
 
-# Проверка наличия аргументов
-if [ $# -ne 1 ]; then
-    echo "Использование: $0 <название_задачи>"
+# Проверка аргументов
+if [ $# -lt 2 ]; then
+    echo "Использование: $0 <номер_задачи> <название задачи в CamelCase>"
+    echo "Пример: $0 136 SingleNumber"
     exit 1
 fi
 
-# Преобразование названия задачи в slug
-slug=$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
+# Извлечение номера и названия
+number="$1"
+shift
+title_camel="$*"
+folder="${number}${title_camel}"
 
-# Создание директории для задачи
-mkdir -p "problems/$slug"
+# slug для ссылки на leetcode
+slug=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1-\2/g' | tr '[:upper:]' '[:lower:]')
 
-# Создание файла README.md
-touch "problems/$slug/README.md"
+# название пакета — только из названия (в нижнем регистре, без цифр)
+pkg=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1_\2/g' | tr '[:upper:]' '[:lower:]')
 
-# создание go файла
-touch "problems/$slug/solution.go"
+# Заголовок для README (разделяем CamelCase пробелами)
+title_human=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1 \2/g')
 
-# создание файла тестов
-touch "problems/$slug/solution_test.go"
+# Создание структуры
+mkdir -p "problems/$folder"
 
-echo "✅ Задача $1 успешно создана в директории problems/$slug"
+# README.md
+cat > "problems/$folder/README.md" <<EOF
+# $title_human
+
+Level: Easy
+
+[Ссылка на задачу](https://leetcode.com/problems/$slug/)
+
+## Условие
+
+...
+
+## Идея
+
+...
+
+## Сложность
+
+- Время:
+- Память:
+EOF
+
+# solution.go
+cat > "problems/$folder/solution.go" <<EOF
+package $pkg
+
+// TODO: реализовать решение задачи $title_human
+EOF
+
+# solution_test.go
+cat > "problems/$folder/solution_test.go" <<EOF
+package $pkg
+
+import "testing"
+
+func Test${title_camel}(t *testing.T) {
+	// TODO: реализовать тесты
+}
+EOF
+
+echo "✅ Задача $number $title_human успешно создана в problems/$folder"
