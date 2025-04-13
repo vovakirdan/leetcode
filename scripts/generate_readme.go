@@ -18,20 +18,23 @@ type Problem struct {
 	Slug   string
 	Title  string
 	Level  string
+	Link   string
 }
 
-func extractTitleAndLevel(readmePath string) (string, string) {
+func extractMetadata(readmePath string) (string, string, string) {
 	content, err := os.ReadFile(readmePath)
 	if err != nil {
-		return "Unknown", "Unknown"
+		return "Unknown", "Unknown", ""
 	}
 
 	// Поиск заголовка и уровня сложности (ищем "Easy", "Medium", "Hard")
 	titleRe := regexp.MustCompile(`(?m)^#\s+(.*)`)
 	levelRe := regexp.MustCompile(`(?i)Level:\s*(Easy|Medium|Hard)`)
+	linkRe := regexp.MustCompile(`\[Ссылка на задачу\]\((https://leetcode\.com/problems/[^)]+)\)`)
 
 	title := "Unknown"
 	level := "Unknown"
+	link := ""
 
 	if m := titleRe.FindSubmatch(content); m != nil {
 		title = string(m[1])
@@ -39,8 +42,11 @@ func extractTitleAndLevel(readmePath string) (string, string) {
 	if m := levelRe.FindSubmatch(content); m != nil {
 		level = cases.Title(language.English).String(string(m[1]))
 	}
+	if m := linkRe.FindSubmatch(content); m != nil {
+		link = string(m[1])
+	}
 
-	return title, level
+	return title, level, link
 }
 
 func extractNumberFromSlug(slug string) int {
@@ -67,16 +73,16 @@ func main() {
 		if entry.IsDir() {
 			slug := entry.Name()
 			readmePath := filepath.Join(problemsDir, slug, "README.md")
-			title, level := extractTitleAndLevel(readmePath)
+			title, level, link := extractMetadata(readmePath)
 
-			if title == "Unknown" || level == "Unknown" {
-				fmt.Fprintf(os.Stderr, "⚠️  Пропущено: %s — отсутствует корректный заголовок или уровень сложности\n", slug)
+			if title == "Unknown" || level == "Unknown" || link == "" {
+				fmt.Fprintf(os.Stderr, "⚠️  Пропущено: %s — не хватает title/level/link\n", slug)
 				skipped++
 				continue
 			}
 
 			number := extractNumberFromSlug(slug)
-			problems = append(problems, Problem{Number: number, Slug: slug, Title: title, Level: level})
+			problems = append(problems, Problem{Number: number, Slug: slug, Title: title, Level: level, Link: link})
 		}
 	}
 
@@ -86,18 +92,31 @@ func main() {
 
 	var builder strings.Builder
 	builder.WriteString("# LeetCode Solutions in Go\n\n")
-	builder.WriteString("Решения задач с [leetcode.com](https://leetcode.com) с пояснением, кодом и тестами.\n\n")
+	builder.WriteString("🎯 Этот репозиторий содержит решения задач с [LeetCode](https://leetcode.com), написанные на Go. Каждое решение включает объяснение, код и тесты.\n\n")
+	builder.WriteString("## 📦 Фичи\n\n")
+	builder.WriteString("- 🧠 Структура по задачам (`problems/<номер><Название>`)\n")
+	builder.WriteString("- ✅ Тесты через `go test ./...`\n")
+	builder.WriteString("- 🛠 Генерация задач скриптом\n")
+	builder.WriteString("- 🔄 Автоматическая генерация таблицы задач в `README.md`\n")
+	builder.WriteString("- 🧪 Автопроверки при коммите (`gofmt`, `go vet`, `README`)\n\n")
+
+	builder.WriteString("## 🛠 Makefile команды\n\n")
+	builder.WriteString("| Команда | Описание |\n")
+	builder.WriteString("|--------|----------|\n")
+	builder.WriteString("| `make new-solution number=123 title=MyTitle` | Создать новую задачу |\n")
+	builder.WriteString("| `make update-readme` | Перегенерировать README.md |\n")
+	builder.WriteString("| `make test` | Прогнать все тесты |\n")
+	builder.WriteString("| `make check` | Проверка gofmt и go vet |\n")
+	builder.WriteString("| `make install-hooks` | Установить pre-commit hook |\n\n")
+
 	builder.WriteString("## 🔗 Задачи\n\n")
 	builder.WriteString("| # | Название задачи | Уровень | Решение | Описание |\n")
 	builder.WriteString("|---|------------------|---------|---------|----------|\n")
 
 	for i, p := range problems {
-		// Получим slug из названия задачи
-		slug := strings.ToLower(regexp.MustCompile(`([a-z])([A-Z])`).ReplaceAllString(p.Title, "$1-$2"))
-
 		builder.WriteString(fmt.Sprintf(
-			"| %d | [%d. %s](https://leetcode.com/problems/%s/) | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
-			i+1, p.Number, p.Title, slug, p.Level, p.Slug, p.Slug))
+			"| %d | [%d. %s](%s) | %s | [Code](problems/%s/solution.go) | [Explanation](problems/%s/README.md) |\n",
+			i+1, p.Number, p.Title, p.Link, p.Level, p.Slug, p.Slug))
 	}
 
 	err = os.WriteFile("README.md", []byte(builder.String()), 0644)

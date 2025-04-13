@@ -12,3 +12,6 @@ update-readme:
 
 test:
 	@go test -v ./...
+
+new-solution:
+	@bash scripts/new_solution.sh $(number) $(title)
