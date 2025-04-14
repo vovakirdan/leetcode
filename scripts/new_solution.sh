@@ -9,17 +9,21 @@ fi
 
 # Извлечение номера и названия
 number="$1"
-shift
-title_camel="$*"
+title_camel="$2"
+difficulty="$3"
 folder="${number}${title_camel}"
-shift
-difficulty="$1"
 
-# slug для ссылки на leetcode
+# Проверка существования папки
+if [ -d "problems/$folder" ]; then
+    echo "❌ Ошибка: Папка problems/$folder уже существует"
+    exit 1
+fi
+
+# slug для ссылки на leetcode (только название задачи)
 slug=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1-\2/g' | tr '[:upper:]' '[:lower:]')
 
-# название пакета — только из названия (в нижнем регистре, без цифр)
-pkg=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1_\2/g' | tr '[:upper:]' '[:lower:]')
+# название пакета — только из названия (в нижнем регистре)
+pkg=$(echo "$title_camel" | tr '[:upper:]' '[:lower:]')
 
 # Заголовок для README (разделяем CamelCase пробелами)
 title_human=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1 \2/g')
