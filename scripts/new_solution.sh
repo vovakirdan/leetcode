@@ -7,32 +7,34 @@ if [ $# -lt 3 ]; then
     exit 1
 fi
 
-# Извлечение номера и названия
 number="$1"
 title_camel="$2"
 difficulty="$3"
-folder="${number}${title_camel}"
 
-# Проверка существования папки
-if [ -d "problems/$folder" ]; then
-    echo "❌ Ошибка: Папка problems/$folder уже существует"
+# Название задачи в camel case → пробельное → slug
+title_human=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1 \2/g')
+slug=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1-\2/g' | tr '[:upper:]' '[:lower:]')
+pkg=$(echo "$title_camel" | tr '[:upper:]' '[:lower:]')
+
+# Вычисление подпапки: 0-99, 100-199 и т.д.
+start=$(( (number / 100) * 100 ))
+end=$(( start + 99 ))
+range_folder="problems/${start}-${end}"
+
+# Папка задачи
+task_folder="${range_folder}/${number}${title_camel}"
+
+# Проверка на существование
+if [ -d "$task_folder" ]; then
+    echo "❌ Папка уже существует: $task_folder"
     exit 1
 fi
 
-# slug для ссылки на leetcode (только название задачи)
-slug=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1-\2/g' | tr '[:upper:]' '[:lower:]')
-
-# название пакета — только из названия (в нижнем регистре)
-pkg=$(echo "$title_camel" | tr '[:upper:]' '[:lower:]')
-
-# Заголовок для README (разделяем CamelCase пробелами)
-title_human=$(echo "$title_camel" | sed -E 's/([a-z])([A-Z])/\1 \2/g')
-
-# Создание структуры
-mkdir -p "problems/$folder"
+# Создание иерархии
+mkdir -p "$task_folder"
 
 # README.md
-cat > "problems/$folder/README.md" <<EOF
+cat > "$task_folder/README.md" <<EOF
 # $title_human
 
 Level: $difficulty
@@ -70,39 +72,44 @@ Level: $difficulty
 
 ---
 
-## 📄 Пример:
+## 📝 Пример:
 
 Вход:
 
-```
+\`\`\`
 
-```
+\`\`\`
 
 Выход:
 
-```
+\`\`\`
 
-```
+\`\`\`
 
 ---
 
-## 📝 Решение:
+## 🏷 Теги:
 
-```go
+_(заполнится после \`make fetch-tags\`)_
 
-```
+---
 
+## 💡 Решение:
+
+\`\`\`go
+
+\`\`\`
 EOF
 
 # solution.go
-cat > "problems/$folder/solution.go" <<EOF
+cat > "$task_folder/solution.go" <<EOF
 package $pkg
 
 // TODO: реализовать решение задачи $title_human
 EOF
 
 # solution_test.go
-cat > "problems/$folder/solution_test.go" <<EOF
+cat > "$task_folder/solution_test.go" <<EOF
 package $pkg
 
 import "testing"
@@ -112,4 +119,4 @@ func Test${title_camel}(t *testing.T) {
 }
 EOF
 
-echo "✅ Задача $number $title_human успешно создана в problems/$folder"
+echo "✅ Задача $number $title_human успешно создана в $task_folder"

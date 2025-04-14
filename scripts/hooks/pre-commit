@@ -13,7 +13,7 @@ echo "🔎 Running go vet..."
 go vet ./...
 
 echo "📄 Regenerating README.md..."
-go run scripts/generate_readme.go
+go run scripts/generate_readme/generate_readme.go
 
 if [ $? -ne 0 ]; then
     echo "❌ Failed to generate README.md"

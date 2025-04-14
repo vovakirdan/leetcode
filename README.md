@@ -4,37 +4,39 @@
 
 ## 📦 Фичи
 
-- 🧠 Структура по задачам (`problems/<номер><Название>`)
-- ✅ Тесты через `go test ./...`
-- 🛠 Генерация задач скриптом
-- 🔄 Автоматическая генерация таблицы задач в `README.md`
-- 🧪 Автопроверки при коммите (`gofmt`, `go vet`, `README`)
+- 🧠 Задачи структурированы в папках `problems/<range>/<номер><Название>`
+- ✅ Тесты запускаются через `go test ./...`
+- 🔄 README обновляется автоматически `make update-readme`
+- 🏷 Теги загружаются через `make fetch-tags`
+- ⚙️ Хуки при коммите: `gofmt`, `go vet`, генерация README
 
 ## 🛠 Makefile команды
 
 | Команда | Описание |
 |--------|----------|
-| `make [new/new-solution/new-problem] number=123 title=MyTitle level=Easy` | Создать новую задачу |
+| `make new number=123 title=MyTitle level=Easy` | Создать новую задачу |
 | `make update-readme` | Перегенерировать README.md |
 | `make test` | Прогнать все тесты |
 | `make check` | Проверка gofmt и go vet |
 | `make install-hooks` | Установить pre-commit hook |
+| `make fetch-tags` | Загрузить теги в README каждой задачи |
 
 ## 🔗 Задачи
 
-| # | Название задачи | Уровень | Решение | Описание |
-|---|------------------|---------|---------|----------|
-| 1 | [62. Unique Paths](https://leetcode.com/problems/unique-paths/) | Medium | [Code](problems/62UniquePaths/solution.go) | [Explanation](problems/62UniquePaths/README.md) |
-| 2 | [136. Single Number](https://leetcode.com/problems/single-number) | Easy | [Code](problems/136SingleNumber/solution.go) | [Explanation](problems/136SingleNumber/README.md) |
-| 3 | [162. Find Peak Element](https://leetcode.com/problems/find-peak-element) | Medium | [Code](problems/162FindPeakElement/solution.go) | [Explanation](problems/162FindPeakElement/README.md) |
-| 4 | [199. Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view) | Medium | [Code](problems/199BinaryTreeRightSideView/solution.go) | [Explanation](problems/199BinaryTreeRightSideView/README.md) |
-| 5 | [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Medium | [Code](problems/208ImplementTriePrefixTree/solution.go) | [Explanation](problems/208ImplementTriePrefixTree/README.md) |
-| 6 | [334. Increasing Triplet Subsequence](https://leetcode.com/problems/increasing-triplet-subsequence) | Medium | [Code](problems/334IncreasingTripletSubsequence/solution.go) | [Explanation](problems/334IncreasingTripletSubsequence/README.md) |
-| 7 | [338. Counting Bits](https://leetcode.com/problems/counting-bits/) | Easy | [Code](problems/338CountingBits/solution.go) | [Explanation](problems/338CountingBits/README.md) |
-| 8 | [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/) | Medium | [Code](problems/994RottingOranges/solution.go) | [Explanation](problems/994RottingOranges/README.md) |
-| 9 | [1071. Greatest Common Divisor of Strings](https://leetcode.com/problems/greatest-common-divisor-of-strings/) | Easy | [Code](problems/1071GreatestCommonDivisorOfStrings/solution.go) | [Explanation](problems/1071GreatestCommonDivisorOfStrings/README.md) |
-| 10 | [1207. Unique Number Of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/) | Easy | [Code](problems/1207UniqueNumberOfOccurrences/solution.go) | [Explanation](problems/1207UniqueNumberOfOccurrences/README.md) |
-| 11 | [1431. Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/) | Easy | [Code](problems/1431KidsWithTheGreatestNumberOfCandies/solution.go) | [Explanation](problems/1431KidsWithTheGreatestNumberOfCandies/README.md) |
-| 12 | [1768. Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/) | Easy | [Code](problems/1768MergeStringsAlternately/solution.go) | [Explanation](problems/1768MergeStringsAlternately/README.md) |
-| 13 | [2215. Find The Difference Of Two Arrays](https://leetcode.com/problems/find-the-difference-of-two-arrays/) | Easy | [Code](problems/2215FindTheDifferenceOfTwoArrays/solution.go) | [Explanation](problems/2215FindTheDifferenceOfTwoArrays/README.md) |
-| 14 | [2390. Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string) | Medium | [Code](problems/2390RemovingStarsFromAString/solution.go) | [Explanation](problems/2390RemovingStarsFromAString/README.md) |
+| # | Название | Уровень | Теги | Решение | Описание |
+|---|----------|---------|------|---------|----------|
+| 1 | [62. Unique Paths](https://leetcode.com/problems/unique-paths/) | Medium | - | [Code](problems/0-99/62UniquePaths/solution.go) | [Explanation](problems/0-99/62UniquePaths/README.md) |
+| 2 | [136. Single Number](https://leetcode.com/problems/single-number) | Easy | - | [Code](problems/100-199/136SingleNumber/solution.go) | [Explanation](problems/100-199/136SingleNumber/README.md) |
+| 3 | [162. Find Peak Element](https://leetcode.com/problems/find-peak-element) | Medium | - | [Code](problems/100-199/162FindPeakElement/solution.go) | [Explanation](problems/100-199/162FindPeakElement/README.md) |
+| 4 | [199. Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view) | Medium | - | [Code](problems/100-199/199BinaryTreeRightSideView/solution.go) | [Explanation](problems/100-199/199BinaryTreeRightSideView/README.md) |
+| 5 | [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Medium | - | [Code](problems/200-299/208ImplementTriePrefixTree/solution.go) | [Explanation](problems/200-299/208ImplementTriePrefixTree/README.md) |
+| 6 | [238. Product Of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/) | Medium | _(заполнится после `make fetch-tags`)_, --, ## 💡 Решение:, ```go, ``` | [Code](problems/200-299/238ProductOfArrayExceptSelf/solution.go) | [Explanation](problems/200-299/238ProductOfArrayExceptSelf/README.md) |
+| 7 | [334. Increasing Triplet Subsequence](https://leetcode.com/problems/increasing-triplet-subsequence) | Medium | - | [Code](problems/300-399/334IncreasingTripletSubsequence/solution.go) | [Explanation](problems/300-399/334IncreasingTripletSubsequence/README.md) |
+| 8 | [338. Counting Bits](https://leetcode.com/problems/counting-bits/) | Easy | - | [Code](problems/300-399/338CountingBits/solution.go) | [Explanation](problems/300-399/338CountingBits/README.md) |
+| 9 | [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/) | Medium | - | [Code](problems/900-999/994RottingOranges/solution.go) | [Explanation](problems/900-999/994RottingOranges/README.md) |
+| 10 | [1071. Greatest Common Divisor of Strings](https://leetcode.com/problems/greatest-common-divisor-of-strings/) | Easy | - | [Code](problems/1000-1099/1071GreatestCommonDivisorOfStrings/solution.go) | [Explanation](problems/1000-1099/1071GreatestCommonDivisorOfStrings/README.md) |
+| 11 | [1207. Unique Number Of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/) | Easy | - | [Code](problems/1200-1299/1207UniqueNumberOfOccurrences/solution.go) | [Explanation](problems/1200-1299/1207UniqueNumberOfOccurrences/README.md) |
+| 12 | [1431. Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/) | Easy | - | [Code](problems/1400-1499/1431KidsWithTheGreatestNumberOfCandies/solution.go) | [Explanation](problems/1400-1499/1431KidsWithTheGreatestNumberOfCandies/README.md) |
+| 13 | [1768. Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/) | Easy | - | [Code](problems/1700-1799/1768MergeStringsAlternately/solution.go) | [Explanation](problems/1700-1799/1768MergeStringsAlternately/README.md) |
+| 14 | [2215. Find The Difference Of Two Arrays](https://leetcode.com/problems/find-the-difference-of-two-arrays/) | Easy | - | [Code](problems/2200-2299/2215FindTheDifferenceOfTwoArrays/solution.go) | [Explanation](problems/2200-2299/2215FindTheDifferenceOfTwoArrays/README.md) |
+| 15 | [2390. Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string) | Medium | - | [Code](problems/2300-2399/2390RemovingStarsFromAString/solution.go) | [Explanation](problems/2300-2399/2390RemovingStarsFromAString/README.md) |

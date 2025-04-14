@@ -15,3 +15,6 @@ test:
 
 new-solution, new-problem, new:
 	@bash scripts/new_solution.sh $(number) $(title) $(level)
+
+fetch-tags:
+	@go run scripts/fetch_tags/fetch_tags.go
