@@ -14,7 +14,7 @@
 
 | Команда | Описание |
 |--------|----------|
-| `make new-solution number=123 title=MyTitle` | Создать новую задачу |
+| `make [new/new-solution/new-problem] number=123 title=MyTitle level=Easy` | Создать новую задачу |
 | `make update-readme` | Перегенерировать README.md |
 | `make test` | Прогнать все тесты |
 | `make check` | Проверка gofmt и go vet |
@@ -31,9 +31,10 @@
 | 5 | [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Medium | [Code](problems/208ImplementTriePrefixTree/solution.go) | [Explanation](problems/208ImplementTriePrefixTree/README.md) |
 | 6 | [334. Increasing Triplet Subsequence](https://leetcode.com/problems/increasing-triplet-subsequence) | Medium | [Code](problems/334IncreasingTripletSubsequence/solution.go) | [Explanation](problems/334IncreasingTripletSubsequence/README.md) |
 | 7 | [338. Counting Bits](https://leetcode.com/problems/counting-bits/) | Easy | [Code](problems/338CountingBits/solution.go) | [Explanation](problems/338CountingBits/README.md) |
-| 8 | [1071. Greatest Common Divisor of Strings](https://leetcode.com/problems/greatest-common-divisor-of-strings/) | Easy | [Code](problems/1071GreatestCommonDivisorOfStrings/solution.go) | [Explanation](problems/1071GreatestCommonDivisorOfStrings/README.md) |
-| 9 | [1207. Unique Number Of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/) | Easy | [Code](problems/1207UniqueNumberOfOccurrences/solution.go) | [Explanation](problems/1207UniqueNumberOfOccurrences/README.md) |
-| 10 | [1431. Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/) | Easy | [Code](problems/1431KidsWithTheGreatestNumberOfCandies/solution.go) | [Explanation](problems/1431KidsWithTheGreatestNumberOfCandies/README.md) |
-| 11 | [1768. Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/) | Easy | [Code](problems/1768MergeStringsAlternately/solution.go) | [Explanation](problems/1768MergeStringsAlternately/README.md) |
-| 12 | [2215. Find The Difference Of Two Arrays](https://leetcode.com/problems/find-the-difference-of-two-arrays/) | Easy | [Code](problems/2215FindTheDifferenceOfTwoArrays/solution.go) | [Explanation](problems/2215FindTheDifferenceOfTwoArrays/README.md) |
-| 13 | [2390. Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string) | Medium | [Code](problems/2390RemovingStarsFromAString/solution.go) | [Explanation](problems/2390RemovingStarsFromAString/README.md) |
+| 8 | [994. Rotting Oranges](https://leetcode.com/problems/rotting-oranges/) | Medium | [Code](problems/994RottingOranges/solution.go) | [Explanation](problems/994RottingOranges/README.md) |
+| 9 | [1071. Greatest Common Divisor of Strings](https://leetcode.com/problems/greatest-common-divisor-of-strings/) | Easy | [Code](problems/1071GreatestCommonDivisorOfStrings/solution.go) | [Explanation](problems/1071GreatestCommonDivisorOfStrings/README.md) |
+| 10 | [1207. Unique Number Of Occurrences](https://leetcode.com/problems/unique-number-of-occurrences/) | Easy | [Code](problems/1207UniqueNumberOfOccurrences/solution.go) | [Explanation](problems/1207UniqueNumberOfOccurrences/README.md) |
+| 11 | [1431. Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/) | Easy | [Code](problems/1431KidsWithTheGreatestNumberOfCandies/solution.go) | [Explanation](problems/1431KidsWithTheGreatestNumberOfCandies/README.md) |
+| 12 | [1768. Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/) | Easy | [Code](problems/1768MergeStringsAlternately/solution.go) | [Explanation](problems/1768MergeStringsAlternately/README.md) |
+| 13 | [2215. Find The Difference Of Two Arrays](https://leetcode.com/problems/find-the-difference-of-two-arrays/) | Easy | [Code](problems/2215FindTheDifferenceOfTwoArrays/solution.go) | [Explanation](problems/2215FindTheDifferenceOfTwoArrays/README.md) |
+| 14 | [2390. Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string) | Medium | [Code](problems/2390RemovingStarsFromAString/solution.go) | [Explanation](problems/2390RemovingStarsFromAString/README.md) |

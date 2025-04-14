@@ -103,7 +103,7 @@ func main() {
 	builder.WriteString("## 🛠 Makefile команды\n\n")
 	builder.WriteString("| Команда | Описание |\n")
 	builder.WriteString("|--------|----------|\n")
-	builder.WriteString("| `make new-solution number=123 title=MyTitle` | Создать новую задачу |\n")
+	builder.WriteString("| `make [new/new-solution/new-problem] number=123 title=MyTitle level=Easy` | Создать новую задачу |\n")
 	builder.WriteString("| `make update-readme` | Перегенерировать README.md |\n")
 	builder.WriteString("| `make test` | Прогнать все тесты |\n")
 	builder.WriteString("| `make check` | Проверка gofmt и go vet |\n")
