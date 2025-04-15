@@ -75,3 +75,11 @@ func countBits(n int) []int {
 	return ans
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Dynamic Programming
+- Bit Manipulation
+
+---

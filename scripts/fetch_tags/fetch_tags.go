@@ -35,7 +35,7 @@ query questionData($titleSlug: String!) {
 }`
 
 func extractSlug(readme string) string {
-	slugRe := regexp.MustCompile(`\[Ссылка на задачу\]\(https://leetcode.com/problems/([a-z0-9\-]+)/\)`) // group 1 is slug
+	slugRe := regexp.MustCompile(`\[Ссылка на задачу\]\(https://leetcode.com/problems/([a-z0-9\-]+)/?\)`) // group 1 is slug
 	if m := slugRe.FindStringSubmatch(readme); m != nil {
 		return m[1]
 	}
@@ -59,6 +59,7 @@ func fetchTags(slug string) ([]string, error) {
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Referer", fmt.Sprintf("https://leetcode.com/problems/%s/", slug))
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -66,18 +67,32 @@ func fetchTags(slug string) ([]string, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("HTTP request failed with status code: %d", resp.StatusCode)
+	}
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 
-	var data QuestionData
-	if err := json.Unmarshal(body, &data); err != nil {
+	// Log the response for debugging
+	// log.Printf("Response for %s: %s", slug, string(body))
+
+	var response struct {
+		Data struct {
+			Question struct {
+				TopicTags []Tag `json:"topicTags"`
+			} `json:"question"`
+		} `json:"data"`
+	}
+
+	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, err
 	}
 
 	tags := []string{}
-	for _, tag := range data.Question.TopicTags {
+	for _, tag := range response.Data.Question.TopicTags {
 		tags = append(tags, tag.Name)
 	}
 	return tags, nil
@@ -93,26 +108,27 @@ func updateReadmeWithTags(path string, tags []string) error {
 	for _, tag := range tags {
 		tagSection += fmt.Sprintf("- %s\n", tag)
 	}
+	tagSection += "\n---"
 
 	s := string(content)
-	tagsRe := regexp.MustCompile(`(?m)^## 🏷 Теги:.*?(?:(?:\n---)|\z)`) // замена существующей секции
+	tagsRe := regexp.MustCompile(`(?s)## 🏷 Теги:.*?\n---`) // (?s) - dot matches newline
 
 	if tagsRe.MatchString(s) {
-		s = tagsRe.ReplaceAllString(s, tagSection+"\n---")
+		s = tagsRe.ReplaceAllString(s, tagSection)
 	} else {
 		// Вставить перед последним ---
 		insertBefore := strings.LastIndex(s, "---")
 		if insertBefore != -1 {
 			s = s[:insertBefore] + tagSection + "\n" + s[insertBefore:]
 		} else {
-			s += "\n" + tagSection + "\n---"
+			s += "\n" + tagSection
 		}
 	}
 
 	return os.WriteFile(path, []byte(s), 0644)
 }
 
-func UpdateReadmeWithTags() {
+func Run() {
 	baseDir := "problems"
 	err := filepath.WalkDir(baseDir, func(path string, d os.DirEntry, err error) error {
 		if err != nil || d.IsDir() || !strings.HasSuffix(path, "README.md") {
@@ -157,5 +173,5 @@ func UpdateReadmeWithTags() {
 }
 
 func main() {
-	UpdateReadmeWithTags()
+	Run()
 }

@@ -84,3 +84,10 @@ func uniqueOccurrences(arr []int) bool {
 }
 ```
 
+---
+
+## 🏷 Теги:
+- Array
+- Hash Table
+
+---

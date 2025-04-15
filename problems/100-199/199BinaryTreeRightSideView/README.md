@@ -91,3 +91,11 @@ func rightSideView(root *TreeNode) []int {
     return result
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Tree
+- Depth-First Search
+- Breadth-First Search
+- Binary Tree

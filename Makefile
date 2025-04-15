@@ -8,7 +8,7 @@ check:
 	@go vet ./...
 
 update-readme:
-	@go run scripts/generate_readme.go
+	@go run scripts/generate_readme/generate_readme.go
 
 test:
 	@go test -v ./...

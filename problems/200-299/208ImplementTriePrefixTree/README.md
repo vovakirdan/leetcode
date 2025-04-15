@@ -134,3 +134,11 @@ func (t *Trie) StartsWith(prefix string) bool {
 ```
 
 ---
+
+## 🏷 Теги:
+- Hash Table
+- String
+- Design
+- Trie
+
+---

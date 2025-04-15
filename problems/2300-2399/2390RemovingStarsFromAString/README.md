@@ -58,3 +58,12 @@ func removeStars(s string) string {
     return string(stack)
 }
 ```
+
+---
+
+## 🏷 Теги:
+- String
+- Stack
+- Simulation
+
+---

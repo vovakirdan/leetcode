@@ -82,3 +82,12 @@ func comb(n, k int) int {
 	return res
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Math
+- Dynamic Programming
+- Combinatorics
+
+---

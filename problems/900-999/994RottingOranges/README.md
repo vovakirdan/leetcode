@@ -122,3 +122,12 @@ func orangesRotting(grid [][]int) int {
 	return minutes
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Array
+- Breadth-First Search
+- Matrix
+
+---

@@ -75,3 +75,10 @@ func kidsWithCandies(candies []int, extraCandies int) []bool {
 	return res
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Array
+
+---

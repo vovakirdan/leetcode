@@ -78,4 +78,8 @@ func findPeakElement(nums []int) int {
 }
 ```
 
+## 🏷 Теги:
+- Array
+- Binary Search
+
 ---

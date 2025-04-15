@@ -77,3 +77,11 @@ func increasingTriplet(nums []int) bool {
 	return false
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Array
+- Greedy
+
+---

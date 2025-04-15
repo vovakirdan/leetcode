@@ -97,3 +97,11 @@ func findDifference(nums1 []int, nums2 []int) [][]int {
 	return [][]int{res1, res2}
 }
 ```
+
+---
+
+## 🏷 Теги:
+- Array
+- Hash Table
+
+---

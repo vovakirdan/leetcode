@@ -72,3 +72,9 @@ func gcdOfStrings(str1, str2 string) string {
 ```
 
 ---
+
+## 🏷 Теги:
+- Math
+- String
+
+---

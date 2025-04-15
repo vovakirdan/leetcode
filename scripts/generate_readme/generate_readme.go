@@ -31,7 +31,7 @@ func extractMetadata(readmePath string) (string, string, string, []string) {
 	titleRe := regexp.MustCompile(`(?m)^#\s+(.*)`)
 	levelRe := regexp.MustCompile(`(?i)Level:\s*(Easy|Medium|Hard)`)
 	linkRe := regexp.MustCompile(`\[Ссылка на задачу\]\((https://leetcode\.com/problems/[^)]+)\)`)
-	tagsRe := regexp.MustCompile(`(?m)^## 🏷 Теги:\s*\n(?:-?\s*\*? ?([^\n]+)\n?)+`)
+	tagsRe := regexp.MustCompile(`(?s)## 🏷 Теги:\s*\n((?:- [^\n]+\n)+)(?:\n---)?`)
 
 	title, level, link := "Unknown", "Unknown", ""
 	var tags []string
@@ -47,12 +47,11 @@ func extractMetadata(readmePath string) (string, string, string, []string) {
 	}
 
 	// Поиск всех строк после заголовка "## Теги:"
-	if tagBlock := tagsRe.FindString(string(content)); tagBlock != "" {
-		lines := strings.Split(tagBlock, "\n")
-		for _, line := range lines[1:] {
+	if tagBlock := tagsRe.FindStringSubmatch(string(content)); len(tagBlock) > 1 {
+		lines := strings.Split(tagBlock[1], "\n")
+		for _, line := range lines {
 			clean := strings.TrimSpace(line)
 			clean = strings.TrimPrefix(clean, "-")
-			clean = strings.TrimPrefix(clean, "*")
 			clean = strings.TrimSpace(clean)
 			if clean != "" {
 				tags = append(tags, clean)
