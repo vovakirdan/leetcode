@@ -172,6 +172,70 @@ func Run() {
 	}
 }
 
+func RunForOneProblem(number string) {
+	var problemDir string
+
+	err := filepath.WalkDir("problems", func(path string, d os.DirEntry, err error) error {
+		if err != nil || !d.IsDir() {
+			return nil
+		}
+		if filepath.Base(filepath.Dir(path)) == "problems" {
+			// Пропускаем верхнеуровневые диапазоны (0-99 и т.п.)
+			return nil
+		}
+		if strings.HasPrefix(filepath.Base(path), number) {
+			problemDir = path
+			return filepath.SkipAll
+		}
+		return nil
+	})
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "❌ Ошибка при поиске директории задачи: %v\n", err)
+		return
+	}
+
+	if problemDir == "" {
+		fmt.Fprintf(os.Stderr, "❌ Не найдена директория для задачи %s\n", number)
+		return
+	}
+
+	readme := filepath.Join(problemDir, "README.md")
+	if _, err := os.Stat(readme); os.IsNotExist(err) {
+		fmt.Fprintf(os.Stderr, "⚠️  Пропущено: %s (файл README не найден)\n", readme)
+		return
+	}
+
+	content, err := os.ReadFile(readme)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "❌ Ошибка чтения README: %v\n", err)
+		return
+	}
+
+	slug := extractSlug(string(content))
+	if slug == "" {
+		fmt.Fprintf(os.Stderr, "❌ Не удалось извлечь slug из README\n")
+		return
+	}
+
+	tags, err := fetchTags(slug)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "❌ Ошибка получения тегов: %v\n", err)
+		return
+	}
+
+	if err := updateReadmeWithTags(readme, tags); err != nil {
+		fmt.Fprintf(os.Stderr, "❌ Ошибка обновления README: %v\n", err)
+		return
+	}
+
+	fmt.Printf("✅ Теги обновлены для задачи %s\n", number)
+}
+
 func main() {
-	Run()
+	if len(os.Args) > 1 {
+		RunForOneProblem(os.Args[1])
+	} else {
+		Run()
+	}
 }

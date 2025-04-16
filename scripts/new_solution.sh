@@ -103,6 +103,9 @@ Level: $difficulty
 ---
 EOF
 
+# try to fetch tags
+go run scripts/fetch_tags/fetch_tags.go $number
+
 # solution.go
 cat > "$task_folder/solution.go" <<EOF
 package $pkg
