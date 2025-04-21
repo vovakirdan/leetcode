@@ -182,6 +182,129 @@ delete(set, val)
 
 ---
 
+### 2.5 🔹 MinHeap (Мини-куча)
+
+### 📌 Когда использовать:
+
+- Нужно **отслеживать k наибольших / наименьших элементов**
+- Часто используется в задачах:
+  - `Kth Largest/Smallest Element`
+  - `Top K frequent`
+  - `Merge K sorted lists`
+  - Потоковые данные (streaming) — поддерживать Top K на лету
+
+### ✅ Типовая структура:
+
+```go
+import "container/heap"
+
+type MinHeap []int
+
+func (h MinHeap) Len() int           { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] } // min-heap
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinHeap) Push(x any)        { *h = append(*h, x.(int)) }
+func (h *MinHeap) Pop() any {
+    old := *h
+    x := old[len(old)-1]
+    *h = old[:len(old)-1]
+    return x
+}
+```
+
+### 🛠 Использование:
+
+```go
+h := &MinHeap{}
+heap.Init(h)
+
+heap.Push(h, 3)
+heap.Push(h, 1)
+heap.Push(h, 2)
+
+min := heap.Pop(h).(int)  // → 1
+```
+
+### 📏 Сложность:
+- `heap.Push`, `heap.Pop` — O(log n)
+- `heap.Init` — O(n)
+
+---
+
+### 2.6 🔹 Quickselect
+
+### 📌 Когда использовать:
+
+- Нужно найти **k-й по величине (или по порядку) элемент**
+- Альтернатива сортировке — **в среднем O(n)**
+- Задачи:
+  - `Kth Largest Element`
+  - `Median of unsorted array`
+  - `Top K frequent (варианты)`
+
+### ✅ Скелет реализации:
+
+```go
+func quickSelect(nums []int, left, right, k int) int {
+    if left == right {
+        return nums[left]
+    }
+
+    pivotIndex := partition(nums, left, right)
+
+    if pivotIndex == k {
+        return nums[pivotIndex]
+    } else if pivotIndex < k {
+        return quickSelect(nums, pivotIndex+1, right, k)
+    } else {
+        return quickSelect(nums, left, pivotIndex-1, k)
+    }
+}
+
+func partition(nums []int, left, right int) int {
+    pivot := nums[right]
+    i := left
+
+    for j := left; j < right; j++ {
+        if nums[j] < pivot {
+            nums[i], nums[j] = nums[j], nums[i]
+            i++
+        }
+    }
+
+    nums[i], nums[right] = nums[right], nums[i]
+    return i
+}
+```
+
+### 🔍 Пример вызова:
+
+```go
+// Чтобы найти k-й по величине (отсортировать по убыванию):
+index := len(nums) - k
+res := quickSelect(nums, 0, len(nums)-1, index)
+```
+
+### 📏 Сложность:
+
+- **Среднее время:** O(n)
+- **Худшее время:** O(n²), если плохо выбрать пивот
+- **Память:** O(1), если in-place
+
+---
+
+## ⚔️ MinHeap vs Quickselect — когда что:
+
+| Сценарий                            | Лучше использовать |
+|------------------------------------|---------------------|
+| Найти **k-й элемент**              | Quickselect         |
+| **Отслеживать k лучших** онлайн    | MinHeap (размер k)  |
+| Обновляемые потоки / стрим         | MinHeap             |
+| Множественные запросы по k         | Сортировка один раз |
+
+---
+
 ### 💡 2.5 Часто используемые паттерны
 
 - **Stack** — если надо обрабатывать "слева направо + удалять/отменять" (`remove stars`, `valid parentheses`, `monotonic stack`)
