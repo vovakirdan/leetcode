@@ -122,6 +122,9 @@ func generateReadme() {
 	var builder strings.Builder
 	builder.WriteString("# LeetCode Solutions in Go\n\n")
 	builder.WriteString("🎯 Этот репозиторий содержит решения задач с [LeetCode](https://leetcode.com), написанные на Go. Каждое решение включает объяснение, код и тесты.\n\n")
+	builder.WriteString("#### 📚 [Алгоритмическая шпаргалка](algoCheatsheet.md)\n\n")
+	builder.WriteString("#### 📚 [Шпаргалка по Go](deepGo.md)\n\n")
+	builder.WriteString("#### 📚 [Лайвкодинг кейсы](livecodingCases.md)\n\n")
 
 	builder.WriteString("## 📦 Фичи\n\n")
 	builder.WriteString("- 🧠 Задачи структурированы в папках `problems/<range>/<номер><Название>`\n")
