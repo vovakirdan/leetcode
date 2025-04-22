@@ -31,39 +31,39 @@ func inOrder(root *TreeNode, res *[]int) {
 // Тесты
 func TestDeleteNode(t *testing.T) {
 	tests := []struct {
-		name         string
-		initial      []int
-		deleteKey    int
+		name            string
+		initial         []int
+		deleteKey       int
 		expectedInOrder []int
 	}{
 		{
-			name:         "Delete leaf node",
-			initial:      []int{5, 3, 6, 2, 4},
-			deleteKey:    2,
+			name:            "Delete leaf node",
+			initial:         []int{5, 3, 6, 2, 4},
+			deleteKey:       2,
 			expectedInOrder: []int{3, 4, 5, 6}, // in-order: [3, 4, 5, 6]
 		},
 		{
-			name:         "Delete node with one child",
-			initial:      []int{5, 3, 6, 2},
-			deleteKey:    3,
+			name:            "Delete node with one child",
+			initial:         []int{5, 3, 6, 2},
+			deleteKey:       3,
 			expectedInOrder: []int{2, 5, 6},
 		},
 		{
-			name:         "Delete node with two children",
-			initial:      []int{5, 3, 6, 2, 4},
-			deleteKey:    3,
+			name:            "Delete node with two children",
+			initial:         []int{5, 3, 6, 2, 4},
+			deleteKey:       3,
 			expectedInOrder: []int{2, 4, 5, 6},
 		},
 		{
-			name:         "Delete root node",
-			initial:      []int{5, 3, 6, 2, 4},
-			deleteKey:    5,
+			name:            "Delete root node",
+			initial:         []int{5, 3, 6, 2, 4},
+			deleteKey:       5,
 			expectedInOrder: []int{2, 3, 4, 6},
 		},
 		{
-			name:         "Delete non-existent key",
-			initial:      []int{5, 3, 6},
-			deleteKey:    100,
+			name:            "Delete non-existent key",
+			initial:         []int{5, 3, 6},
+			deleteKey:       100,
 			expectedInOrder: []int{3, 5, 6},
 		},
 	}
